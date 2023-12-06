@@ -15,8 +15,7 @@
   align-items: center;
   justify-content: center;
   font-size: 1rem;
-  background-color: burlywood;
+  background-color: skyblue;
   color: black;
-  gap: 1rem;
-  border: 2px dotted black;
+  border: 2px solid black;
 }

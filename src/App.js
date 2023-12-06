@@ -2,7 +2,10 @@ import React from "react";
 import { DataQuery } from "@dhis2/app-runtime";
 import i18n from "@dhis2/d2-i18n";
 import classes from "./App.module.css";
-import ValidationRulesList from "./components/ValidationRuleList";
+import DataSetList from "./components/DataSetList";
+import ValidationRuleList from "./components/ValidationRuleList";
+import { CircularLoader } from "@dhis2/ui";
+import { useEffect, useState } from "react";
 
 const query = {
   me: {
@@ -10,7 +13,17 @@ const query = {
   },
 };
 
+const dataSetQuery = {
+  dataSets: {
+    resource: "dataSets",
+    params: {
+      fields: "id,name",
+    },
+  },
+};
+
 const MyApp = () => {
+  const [dataSetId, setDataSetId] = useState("");
   return (
     <>
       <div className={classes.container}>
@@ -26,7 +39,31 @@ const MyApp = () => {
             );
           }}
         </DataQuery>
-        <ValidationRulesList datasetId={"BfMAe6Itzgt"}></ValidationRulesList>
+        <DataQuery query={dataSetQuery}>
+          {({ error, loading, data }) => {
+            if (error) return <span>ERROR</span>;
+            if (loading) return <CircularLoader />;
+            if (dataSetId.length === 0)
+              return (
+                <>
+                  <DataSetList
+                    dataSets={data.dataSets.dataSets}
+                    setDataSetId={setDataSetId}
+                  />
+                </>
+              );
+            return (
+              <div>
+                <DataSetList
+                  dataSets={data.dataSets.dataSets}
+                  setDataSetId={setDataSetId}
+                />
+                <h1>{dataSetId}</h1>;
+                <ValidationRuleList dataSetId={dataSetId} />
+              </div>
+            );
+          }}
+        </DataQuery>
       </div>
     </>
   );
