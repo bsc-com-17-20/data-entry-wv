@@ -1,71 +1,22 @@
 import React from "react";
-import { DataQuery } from "@dhis2/app-runtime";
-import i18n from "@dhis2/d2-i18n";
 import classes from "./App.module.css";
-import DataSetList from "./components/DataSetList";
-import ValidationRuleList from "./components/ValidationRuleList";
+import ValidationRules from "./components/ValidationRules";
+import DataSetPicker from "./components/DataSetPicker";
 import { CircularLoader } from "@dhis2/ui";
-import { useEffect, useState } from "react";
-
-const query = {
-  me: {
-    resource: "me",
-  },
-};
-
-const dataSetQuery = {
-  dataSets: {
-    resource: "dataSets",
-    params: {
-      fields: "id,name",
-    },
-  },
-};
+import { useState } from "react";
 
 const MyApp = () => {
-  const [dataSetId, setDataSetId] = useState("");
+  const [selectedDataSet, setSelectedDataSet] = useState(null);
+
+  const handleSelectDataSet = (dataSetId) => {
+    setSelectedDataSet(dataSetId);
+  };
+
   return (
-    <>
-      <div className={classes.container}>
-        <DataQuery query={query}>
-          {({ error, loading, data }) => {
-            if (error) return <span>ERROR</span>;
-            if (loading) return <span>...</span>;
-            return (
-              <>
-                <h1>{i18n.t("Hello {{name}}", { name: data.me.name })}</h1>
-                <h3>{i18n.t("Welcome to DHIS2!")}</h3>
-              </>
-            );
-          }}
-        </DataQuery>
-        <DataQuery query={dataSetQuery}>
-          {({ error, loading, data }) => {
-            if (error) return <span>ERROR</span>;
-            if (loading) return <CircularLoader />;
-            if (dataSetId.length === 0)
-              return (
-                <>
-                  <DataSetList
-                    dataSets={data.dataSets.dataSets}
-                    setDataSetId={setDataSetId}
-                  />
-                </>
-              );
-            return (
-              <div>
-                <DataSetList
-                  dataSets={data.dataSets.dataSets}
-                  setDataSetId={setDataSetId}
-                />
-                <h1>{dataSetId}</h1>;
-                <ValidationRuleList dataSetId={dataSetId} />
-              </div>
-            );
-          }}
-        </DataQuery>
-      </div>
-    </>
+    <div className={classes.container}>
+      <DataSetPicker onSelectDataSet={handleSelectDataSet} />
+      {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
+    </div>
   );
 };
 
