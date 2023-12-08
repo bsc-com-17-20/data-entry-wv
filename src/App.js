@@ -1,34 +1,24 @@
 import React from "react";
-import { DataQuery } from "@dhis2/app-runtime";
-import i18n from "@dhis2/d2-i18n";
 import classes from "./App.module.css";
-import ValidationRulesList from "./components/ValidationRuleList";
-
-const query = {
-  me: {
-    resource: "me",
-  },
-};
+import ValidationRules from "./components/ValidationRules";
+import DataSetPicker from "./components/DataSetPicker";
+import { CircularLoader } from "@dhis2/ui";
+import { useState } from "react";
+import OrganisationUnit from "./components/OrganisationUnit"
 
 const MyApp = () => {
+  const [selectedDataSet, setSelectedDataSet] = useState(null);
+
+  const handleSelectDataSet = (dataSetId) => {
+    setSelectedDataSet(dataSetId);
+  };
+
   return (
-    <>
-      <div className={classes.container}>
-        <DataQuery query={query}>
-          {({ error, loading, data }) => {
-            if (error) return <span>ERROR</span>;
-            if (loading) return <span>...</span>;
-            return (
-              <>
-                <h1>{i18n.t("Hello {{name}}", { name: data.me.name })}</h1>
-                <h3>{i18n.t("Welcome to DHIS2!")}</h3>
-              </>
-            );
-          }}
-        </DataQuery>
-        <ValidationRulesList datasetId={"BfMAe6Itzgt"}></ValidationRulesList>
-      </div>
-    </>
+    <div className={classes.container}>
+      <DataSetPicker onSelectDataSet={handleSelectDataSet} />
+      {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
+      <OrganisationUnit/>
+    </div>
   );
 };
 
