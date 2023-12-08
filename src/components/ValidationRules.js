@@ -17,7 +17,6 @@ const ValidationRules = ({ dataSetId }) => {
   const { loading, error, data, refetch } = useDataQuery(validationRulesQuery);
 
   useEffect(() => {
-    console.log("Triggered");
     refetch({ dataSetId });
   }, [dataSetId]);
 
