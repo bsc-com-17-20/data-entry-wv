@@ -15,7 +15,7 @@ const MyApp = () => {
   };
 
   const handleSelectOrgUnit = (orgUnitId) => {
-    selectedOrgUnit(orgUnitId);
+    setSelectedOrgUnit(orgUnitId);
   };
 
   return (
