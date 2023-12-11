@@ -1,6 +1,7 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
 import { ReactFinalForm, InputFieldFF, Button, hasValue } from "@dhis2/ui";
+import classes from "../App.module.css";
 
 const { Form, Field } = ReactFinalForm;
 
@@ -44,7 +45,9 @@ const DataEntryForm = ({ dataSetId }) => {
         </>
       )} */}
       {data && (
-        <div>
+        <div className={classes.forms__design}>
+          <div> 
+
           <h1>{data.dataSets.displayName}</h1>
           <Form
             onSubmit={alertValues}
@@ -68,8 +71,9 @@ const DataEntryForm = ({ dataSetId }) => {
                 </div>
               </form>
             )}
-          ></Form>
+            ></Form>
         </div>
+            </div>
       )}
     </div>
   );

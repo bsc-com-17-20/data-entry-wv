@@ -27,20 +27,22 @@ const MyApp = () => {
 
   return (
     <div className={classes.container}>
+      <div className={classes.button__container}>
       <DataSetPicker onSelectDataSet={handleSelectDataSet} />
-      {/* {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
       {selectedDataSet && (
         <OrgUnitPicker
-          onSelectOrgUnit={handleSelectOrgUnit}
-          dataSetId={selectedDataSet}
+        onSelectOrgUnit={handleSelectOrgUnit}
+        dataSetId={selectedDataSet}
         />
-      )} */}
-      {/* {selectedOrgUnit && (
+        )}
+      {selectedOrgUnit && (
         <ProgramPicker
-          onSelectProgram={handleSelectProgram}
-          organizationUnitId={selectedDataSet}
+        onSelectProgram={handleSelectProgram}
+        organizationUnitId={selectedDataSet}
         />
-      )} */}
+        )}
+        </div>
+      {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
       {selectedDataSet && <DataEntryForm dataSetId={selectedDataSet} />}
     </div>
   );
