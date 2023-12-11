@@ -1,66 +1,76 @@
-import React, { useEffect, useState } from 'react';
-import { useDataQuery } from '@dhis2/app-runtime';
+import { useDataQuery } from "@dhis2/app-runtime";
+import { useEffect } from "react";
+import { ReactFinalForm, InputFieldFF, Button, hasValue } from "@dhis2/ui";
 
-const useDataElements = (datasetId) => {
-  const { loading, error, data } = useDataQuery({
-    dataSets: {
-      resource: 'dataSets',
-      id: datasetId,
-      params: {
-        fields: 'dataSetElements[dataElement[id,displayName]]',
-      },
+const { Form, Field } = ReactFinalForm;
+
+const DataSetElementsQuery = {
+  dataSets: {
+    resource: "dataSets",
+    id: ({ dataSetId }) => dataSetId,
+    params: {
+      fields:
+        "displayName,dataSetElements[dataElement[id,valueType,displayName]]",
     },
-  });
-
-  return {
-    loading,
-    error,
-    dataElements: data?.dataSets?.dataSetElements || [],
-  };
+  },
 };
-
-const DataEntryForm = () => {
-  const datasetId = 'BfMAe6Itzgt'; // Replace with the actual dataset ID
-  const { loading, error, dataElements } = useDataElements(datasetId);
-  const [formData, setFormData] = useState({});
-
+const DataEntryForm = ({ dataSetId }) => {
+  const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery);
+  const onSubmit = (values) => {
+    console.log(values);
+  };
+  const alertValues = (values) => {
+    const formattedValuesString = JSON.stringify(values, null, 2);
+    alert(formattedValuesString);
+  };
   useEffect(() => {
-    // Additional logic if needed on component mount
-  }, []);
-
-  const handleInputChange = (elementId, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      [elementId]: value,
-    }));
-  };
-
-  const handleSubmit = () => {
-    // Form submission logic, e.g., send data to DHIS2 API
-    console.log('Form Data:', formData);
-  };
-
+    refetch({ dataSetId });
+  }, [dataSetId]);
   return (
     <div>
-      <h2>Data Entry Form</h2>
-      {loading && <p>Loading...</p>}
-      {error && <p>Error fetching data elements: {error.message}</p>}
-      <form>
-        {dataElements.map((element) => (
-          <div key={element.dataElement.id}>
-            <label htmlFor={element.dataElement.id}>{element.dataElement.displayName}</label>
-            <input
-              type="text"
-              id={element.dataElement.id}
-              name={element.dataElement.id}
-              onChange={(e) => handleInputChange(element.dataElement.id, e.target.value)}
-            />
-          </div>
-        ))}
-        <button type="button" onClick={handleSubmit}>
-          Submit
-        </button>
-      </form>
+      {error && `Error: ${error.message}`}
+      {loading && `Loading...`}
+      {/* {data && (
+        <>
+          <p>{data.dataSets.displayName}</p>
+          <ul>
+            {data.dataSets.dataSetElements.map((dataElement) => (
+              <li key={dataElement.dataElement.id}>
+                {dataElement.dataElement.displayName} -{" "}
+                {dataElement.dataElement.valueType}
+              </li>
+            ))}
+          </ul>
+        </>
+      )} */}
+      {data && (
+        <div>
+          <h1>{data.dataSets.displayName}</h1>
+          <Form
+            onSubmit={alertValues}
+            render={({ handleSubmit }) => (
+              <form onSubmit={handleSubmit}>
+                {data.dataSets.dataSetElements.map((dataElement) => (
+                  <div key={dataElement.dataElement.id}>
+                    <Field
+                      name={dataElement.dataElement.displayName}
+                      label={dataElement.dataElement.displayName}
+                      component={InputFieldFF}
+                      type={dataElement.dataElement.valueType}
+                      validate={hasValue}
+                    ></Field>
+                  </div>
+                ))}
+                <div>
+                  <Button type="submit" primary>
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            )}
+          ></Form>
+        </div>
+      )}
     </div>
   );
 };
