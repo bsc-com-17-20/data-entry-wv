@@ -1,5 +1,7 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
+import classes from "../App.module.css";
+
 
 const organisationUnitsQuery = {
   dataSets: {
@@ -24,17 +26,16 @@ const OrgUnitPicker = ({ onSelectOrgUnit, dataSetId }) => {
       {loading && `Loading...`}
       {data && (
         <>
-          <p>Organisation Units for DataSet {dataSetId}:</p>
-          <ul>
+          <select className={classes.button}>
             {data.dataSets.organisationUnits.map((organisationUnit) => (
-              <li
+              <option
                 key={organisationUnit.id}
                 onClick={() => onSelectOrgUnit(organisationUnit.id)}
               >
                 {organisationUnit.displayName}
-              </li>
+              </option>
             ))}
-          </ul>
+          </select>
         </>
       )}
     </div>
