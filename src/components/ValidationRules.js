@@ -1,5 +1,6 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
+import classes from "../App.module.css";
 
 // This query retrieves validation rules for a specific dataSet
 const validationRulesQuery = {
@@ -26,7 +27,7 @@ const ValidationRules = ({ dataSetId }) => {
       {loading && `Loading...`}
       {data && (
         <div>
-          <button className="button__validation">Validation Rules
+          <button className={classes.button__validation}>Validation Rules
           <ul>
             {data.validationRules.validationRules.map((rule) => (
               <li key={rule.id}>
