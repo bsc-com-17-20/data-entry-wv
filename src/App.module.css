@@ -40,6 +40,12 @@
 }
 .button__validation{
   background-color:rgb(176, 205, 206) ;
+  height: 32px;
+  border: 30px;
+  position: absolute ;
+  margin-left: 300px;
+  
+
 
 
 }
