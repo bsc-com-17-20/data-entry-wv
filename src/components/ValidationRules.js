@@ -26,7 +26,7 @@ const ValidationRules = ({ dataSetId }) => {
       {loading && `Loading...`}
       {data && (
         <div>
-          <p>Validation Rules for DataSet {dataSetId}:</p>
+          <button className="button__validation">Validation Rules
           <ul>
             {data.validationRules.validationRules.map((rule) => (
               <li key={rule.id}>
@@ -35,6 +35,7 @@ const ValidationRules = ({ dataSetId }) => {
               </li>
             ))}
           </ul>
+          </button>
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { useDataQuery } from "@dhis2/app-runtime";
+import classes from "../App.module.css";
 
 const DataSetPicker = ({ onSelectDataSet }) => {
   const { loading, error, data } = useDataQuery({
@@ -15,14 +16,14 @@ const DataSetPicker = ({ onSelectDataSet }) => {
 
   return (
     <div>
-      <p>Choose a DataSet:</p>
-      <ul>
+      <select className={classes.button} onChange={e => onSelectDataSet(e.target.value)}>
+        <option value={null}>Data Set</option>
         {data.dataSets.dataSets.map((dataSet) => (
-          <li key={dataSet.id} onClick={() => onSelectDataSet(dataSet.id)}>
+          <option key={dataSet.id} value={dataSet.id} onClick={() => onSelectDataSet(dataSet.id)}>
             {dataSet.name}
-          </li>
+          </option>
         ))}
-      </ul>
+      </select>
     </div>
   );
 };

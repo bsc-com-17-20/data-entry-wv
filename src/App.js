@@ -20,14 +20,16 @@ const MyApp = () => {
 
   return (
     <div className={classes.container}>
-      <DataSetPicker onSelectDataSet={handleSelectDataSet} />
-      {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
-      {selectedDataSet && (
-        <OrgUnitPicker
+      <div className={classes.button__container}>
+        <DataSetPicker onSelectDataSet={handleSelectDataSet} />
+        {selectedDataSet && (
+          <OrgUnitPicker
           onSelectOrgUnit={handleSelectOrgUnit}
           dataSetId={selectedDataSet}
-        />
-      )}
+          />
+        )}
+      </div>
+      {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
     </div>
   );
 };
