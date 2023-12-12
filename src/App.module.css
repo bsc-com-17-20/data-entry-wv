@@ -54,3 +54,7 @@
   align-items: center;
   padding: 40px 80px;
 }
+
+.submit__button{
+  margin-top: 24px;
+}

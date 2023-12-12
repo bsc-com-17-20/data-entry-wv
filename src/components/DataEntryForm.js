@@ -64,7 +64,7 @@ const DataEntryForm = ({ dataSetId }) => {
                     ></Field>
                   </div>
                 ))}
-                <div>
+                <div className= {classes.submit__button}>
                   <Button type="submit" primary>
                     Submit
                   </Button>
