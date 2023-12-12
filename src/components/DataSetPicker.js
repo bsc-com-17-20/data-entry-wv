@@ -16,10 +16,17 @@ const DataSetPicker = ({ onSelectDataSet }) => {
 
   return (
     <div>
-      <select className={classes.button} onChange={e => onSelectDataSet(e.target.value)}>
-        <option value={null}>Data Set</option>
+      <select
+        className={classes.button}
+        onChange={(e) => onSelectDataSet(e.target.value)}
+      >
+        <option>Data Set</option>
         {data.dataSets.dataSets.map((dataSet) => (
-          <option key={dataSet.id} value={dataSet.id} onClick={() => onSelectDataSet(dataSet.id)}>
+          <option
+            key={dataSet.id}
+            value={dataSet.id}
+            onClick={() => onSelectDataSet(dataSet.id)}
+          >
             {dataSet.name}
           </option>
         ))}

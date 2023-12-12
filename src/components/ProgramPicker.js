@@ -1,5 +1,6 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
+import classes from "../App.module.css";
 
 const ProgramsQuery = {
   programs: {
@@ -24,14 +25,21 @@ const ProgramPicker = ({ organizationUnitId, onSelectProgram }) => {
       {loading && `Loading...`}
       {data && (
         <div>
-          <p>Programs for Organisation Unit: {organizationUnitId}</p>
-          <ul>
+          <select
+            className={classes.button}
+            onChange={(e) => onSelectProgram(e.target.value)}
+          >
+            <option>Program</option>
             {data.programs.programs.map((program) => (
-              <li key={program.id} onClick={() => onSelectProgram(program.id)}>
+              <option
+                key={program.id}
+                value={program.id}
+                onClick={() => onSelectProgram(program.id)}
+              >
                 {program.displayName}
-              </li>
+              </option>
             ))}
-          </ul>
+          </select>
         </div>
       )}
     </div>

@@ -2,7 +2,6 @@ import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
 import classes from "../App.module.css";
 
-
 const organisationUnitsQuery = {
   dataSets: {
     resource: "dataSets",
@@ -26,10 +25,15 @@ const OrgUnitPicker = ({ onSelectOrgUnit, dataSetId }) => {
       {loading && `Loading...`}
       {data && (
         <>
-          <select className={classes.button}>
+          <select
+            className={classes.button}
+            onChange={(e) => onSelectOrgUnit(e.target.value)}
+          >
+            <option key={null}>Org Unit</option>
             {data.dataSets.organisationUnits.map((organisationUnit) => (
               <option
                 key={organisationUnit.id}
+                value={organisationUnit.id}
                 onClick={() => onSelectOrgUnit(organisationUnit.id)}
               >
                 {organisationUnit.displayName}

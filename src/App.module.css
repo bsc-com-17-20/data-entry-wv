@@ -1,9 +1,8 @@
 .container {
-  width: 100%;
-  /* height: 100%; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin-left: 100px;
+  margin-right: 100px;
+  display: grid;
+  grid-template-rows: 10rem 1fr;
   justify-content: center;
   font-size: 1rem;
 }
@@ -16,9 +15,10 @@
   border-radius: 5px 5px;
   border-color: black;
 }
-.button:after{
+
+.button:after {
   position: absolute;
-  content:"";
+  content: "";
   top: 14px;
   right: 10px;
   width: 0;
@@ -29,28 +29,28 @@
 
 .button__container {
   display: flex;
-  margin-top: 40px;
+  margin: auto;
   height: 32px;
-  width: 300px;
+  width: 450px;
   align-items: center;
+  justify-items: center;
   border-radius: 5px 5px;
   background-color: rgb(176, 205, 206);
 
   /* background-color: royalblue; */
 }
-.button__validation{
-  background-color:rgb(176, 205, 206) ;
+.button__validation {
+  background-color: rgb(176, 205, 206);
   height: 32px;
   border: 30px;
-  position: absolute ;
+  /* position: absolute; */
   margin-left: 300px;
-
 }
-.forms__design{
+.forms__design {
   border: 2px solid #000;
   margin-top: 30px;
   border-radius: 8px;
-  width: 180%;
+  width: 100%;
   align-items: center;
   padding: 40px 80px;
 }
