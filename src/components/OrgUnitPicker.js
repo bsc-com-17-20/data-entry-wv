@@ -22,7 +22,14 @@ const OrgUnitPicker = ({ onSelectOrgUnit, dataSetId }) => {
   return (
     <div>
       {error && `Error: ${error.message}`}
-      {loading && `Loading...`}
+      {loading && (
+        <select
+          className={classes.button}
+          onChange={(e) => onSelectOrgUnit(e.target.value)}
+        >
+          <option key={null}>Org Unit</option>
+        </select>
+      )}
       {data && (
         <>
           <select

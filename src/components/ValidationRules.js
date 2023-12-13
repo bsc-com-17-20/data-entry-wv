@@ -29,18 +29,14 @@ const ValidationRules = ({ dataSetId }) => {
       {error && `Error: ${error.message}`}
       {loading && `Loading...`}
       {data && (
-        <div>
-          <button className={classes.button__validation}>Validation Rules
-          <ul>
-            {data.validationRules.validationRules.map((rule) => (
-              <li key={rule.id}>
-                {rule.displayName} : {rule.leftSide.expression} {rule.operator}{" "}
-                {rule.rightSide.expression}
-              </li>
-            ))}
-          </ul>
-          </button>
-        </div>
+        <ul>
+          {data.validationRules.validationRules.map((rule) => (
+            <li key={rule.id}>
+              {rule.displayName} : {rule.leftSide.expression} {rule.operator}{" "}
+              {rule.rightSide.expression}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   );

@@ -36,7 +36,10 @@ const MyApp = () => {
             dataSetId={selectedDataSet}
           />
         )}
-        <Period></Period>
+        <ProgramPicker
+          organizationUnitId={selectedOrgUnit}
+          onSelectProgram={handleSelectProgram}
+        />
       </div>
       <div>
         {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
