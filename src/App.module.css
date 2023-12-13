@@ -57,3 +57,14 @@
   align-items: center;
   padding: 40px 80px;
 }
+
+.submit__button{
+  margin-top: 24px;
+}
+
+@media (min-width: 576px ) and ( max-width: 767px){
+  .forms__design{
+    padding: 40px 80px;
+    width: 600px;
+  }
+}
