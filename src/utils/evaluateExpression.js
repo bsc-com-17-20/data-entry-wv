@@ -1,31 +1,24 @@
 function evaluateExpression(expression, values) {
-  // Regex to match expressions like #{dataElementId} or #{dataElement*1.5}
-  // const match = expression.match(/#{([^{}]+)}(?:\*([\d.]+))?/);
-
-  // Regex to match expressions like #{dataElementId} or #{dataElement*1.5} or #{dataElementId.categoryId}
-  const match = expression.match(/#{([^{}]+)}(?:\*([\d.]+))?(?:\.([^{}]+))?/);
+  // Regex to match expressions like #{dataElement} or #{dataElement}*number
+  const match = expression.match(/#{([^{}]+)}(?:\*\s*([\d.]+))?/);
+  console.log(values);
 
   if (match) {
     const dataElementId = match[1];
-    const multiplicationFactor = match[2] ? parseFloat(match[2]) : 1;
-    const _categoryId = match[3]; // We will ignore this for now
+    const multiplier = match[2] ? parseFloat(match[2]) : 1;
+    // console.log(dataElementId);
+    // console.log(multiplier);
 
     // Extract the field value based on dataElementId
-    let fieldValue = values[dataElementId];
-
-    // If categoryId is present, access the nested property
-    // if (categoryId && fieldValue && fieldValue[categoryId]) {
-    //   fieldValue = fieldValue[categoryId];
-    // }
-
-    // Apply the multiplication factor
-    fieldValue = fieldValue * multiplicationFactor;
-
-    return fieldValue;
+    const fieldValue = values[dataElementId];
+    console.log(fieldValue);
+    // If fieldValue is a number, multiply it by the multiplier
+    if (!isNaN(fieldValue)) {
+      return fieldValue * multiplier;
+    }
   }
 
-  // TODO: Handle if the expression doesn't match the regex
-  return undefined;
+  return undefined; // Handle the case where the expression doesn't match the expected format
 }
 
 export default evaluateExpression;

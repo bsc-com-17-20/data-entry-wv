@@ -22,7 +22,14 @@ const ProgramPicker = ({ organizationUnitId, onSelectProgram }) => {
   return (
     <div>
       {error && `Error: ${error.message}`}
-      {loading && `Loading...`}
+      {loading && (
+        <select
+          className={classes.button}
+          onChange={(e) => onSelectProgram(e.target.value)}
+        >
+          <option>Program</option>
+        </select>
+      )}
       {data && (
         <div>
           <select

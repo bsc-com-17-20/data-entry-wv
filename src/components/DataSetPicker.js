@@ -1,6 +1,6 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import classes from "../App.module.css";
-import { DropdownButton, FlyoutMenu, MenuItem } from "@dhis2/ui";
+import { CircularLoader } from "@dhis2/ui";
 
 const DataSetPicker = ({ onSelectDataSet }) => {
   const { loading, error, data } = useDataQuery({
@@ -12,7 +12,7 @@ const DataSetPicker = ({ onSelectDataSet }) => {
     },
   });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <CircularLoader />;
   if (error) return <p>Error: {error.message}</p>;
 
   return (

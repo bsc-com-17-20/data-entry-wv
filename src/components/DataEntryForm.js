@@ -52,7 +52,7 @@ const DataEntryForm = ({ dataSetId }) => {
   const validate = (values) => {
     const errors = {};
     if (!loading && data) {
-      validateRulesData.forEach((rule) => {
+      data.validationRules.validationRules.forEach((rule) => {
         // const leftValue = values[rule.leftSide.expression];
         // const rightValue = values[rule.rightSide.expression];
         const leftValue = evaluateExpression(rule.leftSide.expression, values);
@@ -60,63 +60,53 @@ const DataEntryForm = ({ dataSetId }) => {
           rule.rightSide.expression,
           values
         );
+        // console.log(rule.leftSide.expression);
 
         switch (rule.operator) {
           case "equal_to":
             if (leftValue !== rightValue) {
-              errors[rule.id] = `${rule.name} must be equal to ${rightValue}`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "not_equal_to":
             if (leftValue === rightValue) {
-              errors[
-                rule.id
-              ] = `${rule.name} must not be equal to ${rightValue}`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "greater_than":
             if (leftValue <= rightValue) {
-              errors[
-                rule.id
-              ] = `${rule.name} must be greater than ${rightValue}`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "greater_than_or_equal_to":
             if (leftValue < rightValue) {
-              errors[
-                rule.id
-              ] = `${rule.name} must be greater than or equal to ${rightValue}`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "less_than":
             if (leftValue >= rightValue) {
-              errors[rule.id] = `${rule.name} must be less than ${rightValue}`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "less_than_or_equal_to":
             if (leftValue > rightValue) {
-              errors[
-                rule.id
-              ] = `${rule.name} must be less than or equal to ${rightValue}`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "compulsory_pair":
             if (leftValue) {
-              errors[
-                rule.id
-              ] = `If ${rule.name} exists then ${rightValue} must exist`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           case "exclusive_pair":
             if (leftValue) {
-              errors[
-                rule.id
-              ] = `If ${rule.name} exists then ${rightValue} must not exist`;
+              errors[rule.id] = `${rule.displayInstruction}`;
             }
             break;
           default:
             break;
         }
+        return errors;
       });
     }
     return errors;
@@ -125,7 +115,6 @@ const DataEntryForm = ({ dataSetId }) => {
   const typeMapping = {
     BOOLEAN: "checkbox",
     FILE_RESOURCE: "file",
-    // Add more mappings as needed
   };
   const fieldTypeMapping = {
     BOOLEAN: CheckboxFieldFF,
@@ -156,13 +145,14 @@ const DataEntryForm = ({ dataSetId }) => {
             <h1>{data.dataSets.displayName}</h1>
             <Form
               onSubmit={alertValues}
-              // validate={validate}
+              validate={validate}
               render={({ handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
                   {data.dataSets.dataSetElements.map((dataElement) => (
                     <div key={dataElement.dataElement.id}>
                       <Field
-                        name={dataElement.dataElement.displayName}
+                        id={dataElement.dataElement.id}
+                        name={dataElement.dataElement.id}
                         label={dataElement.dataElement.displayName}
                         component={
                           fieldTypeMapping[dataElement.dataElement.valueType] ||
