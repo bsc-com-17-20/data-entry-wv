@@ -5,7 +5,7 @@ import DataSetPicker from "./components/DataSetPicker";
 import OrgUnitPicker from "./components/OrgUnitPicker";
 import ProgramPicker from "./components/ProgramPicker";
 import DataEntryForm from "./components/DataEntryForm";
-import { CircularLoader } from "@dhis2/ui";
+import { CircularLoader, ButtonStrip } from "@dhis2/ui";
 import { useState } from "react";
 import Period from "./components/Period";
 
@@ -29,17 +29,19 @@ const MyApp = () => {
   return (
     <div className={classes.container}>
       <div className={classes.button__container}>
-        <DataSetPicker onSelectDataSet={handleSelectDataSet} />
-        {selectedDataSet && (
-          <OrgUnitPicker
-            onSelectOrgUnit={handleSelectOrgUnit}
-            dataSetId={selectedDataSet}
+        <ButtonStrip middle>
+          <DataSetPicker onSelectDataSet={handleSelectDataSet} />
+          {selectedDataSet && (
+            <OrgUnitPicker
+              onSelectOrgUnit={handleSelectOrgUnit}
+              dataSetId={selectedDataSet}
+            />
+          )}
+          <ProgramPicker
+            organizationUnitId={selectedOrgUnit}
+            onSelectProgram={handleSelectProgram}
           />
-        )}
-        <ProgramPicker
-          organizationUnitId={selectedOrgUnit}
-          onSelectProgram={handleSelectProgram}
-        />
+        </ButtonStrip>
       </div>
       <div>
         {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}

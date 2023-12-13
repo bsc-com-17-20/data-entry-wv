@@ -8,11 +8,11 @@
 }
 
 .button {
-  width: 10rem;
+  width: 200px;
   height: 32px;
   background-color: rgb(176, 205, 206);
+  justify-content: center;
   border: 30px;
-  border-radius: 5px 5px;
   border-color: black;
 }
 
@@ -31,10 +31,11 @@
   display: flex;
   margin: auto;
   height: 32px;
-  width: 450px;
+  width: 800px;
   padding: 2rem;
   align-items: center;
   justify-items: center;
+  justify-content: center;
   border-radius: 5px 5px;
   background-color: rgb(176, 205, 206);
 
@@ -59,18 +60,17 @@
   padding: 40px 80px;
 }
 
-.submit__button{
+.submit__button {
   margin-top: 24px;
 }
 
-@media (min-width: 576px ) and ( max-width: 767px){
-  .forms__design{
+@media (min-width: 576px) and (max-width: 767px) {
+  .forms__design {
     padding: 40px 80px;
     width: 600px;
   }
 
-  .button__validation{
-    margin-left: 450px
-
+  .button__validation {
+    margin-left: 450px;
   }
 }

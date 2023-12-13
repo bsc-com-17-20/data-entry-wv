@@ -1,5 +1,6 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import classes from "../App.module.css";
+import { DropdownButton, FlyoutMenu, MenuItem } from "@dhis2/ui";
 
 const DataSetPicker = ({ onSelectDataSet }) => {
   const { loading, error, data } = useDataQuery({
@@ -16,6 +17,23 @@ const DataSetPicker = ({ onSelectDataSet }) => {
 
   return (
     <div>
+      {/* <DropdownButton
+        component={
+          <FlyoutMenu>
+            {data.dataSets.dataSets.map((dataSet) => (
+              <MenuItem
+                key={dataSet.id}
+                value={dataSet.id}
+                label={dataSet.name}
+                onClick={() => onSelectDataSet(dataSet.id)}
+              />
+            ))}
+          </FlyoutMenu>
+        }
+        primary
+      >
+        Data Sets
+      </DropdownButton> */}
       <select
         className={classes.button}
         onChange={(e) => onSelectDataSet(e.target.value)}
