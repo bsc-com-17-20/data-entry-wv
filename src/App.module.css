@@ -47,6 +47,7 @@
   border: 30px;
   /* position: absolute; */
   margin-left: 300px;
+  border-radius: 8px;
 }
 
 .forms__design {
@@ -66,5 +67,10 @@
   .forms__design{
     padding: 40px 80px;
     width: 600px;
+  }
+
+  .button__validation{
+    margin-left: 450px
+
   }
 }
