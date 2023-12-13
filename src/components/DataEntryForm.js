@@ -118,7 +118,7 @@ const DataEntryForm = ({ dataSetId }) => {
             <h1>{data.dataSets.displayName}</h1>
             <Form
               onSubmit={alertValues}
-              validate={validate}
+              // validate={validate}
               render={({ handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
                   {data.dataSets.dataSetElements.map((dataElement) => (
