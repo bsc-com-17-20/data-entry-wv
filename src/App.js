@@ -27,6 +27,7 @@ const MyApp = () => {
   };
 
   return (
+  <div className={classes.background}>
     <div className={classes.container}>
       <div className={classes.button__container}>
         <ButtonStrip middle>
@@ -48,6 +49,7 @@ const MyApp = () => {
         )}
       </div>
     </div>
+  </div>  
   );
 };
 
