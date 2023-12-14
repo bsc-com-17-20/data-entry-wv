@@ -1,49 +1,56 @@
+// src/components/DataEntryForm.js
+import React, { useEffect } from "react";
 import { useDataQuery } from "@dhis2/app-runtime";
-import { useEffect } from "react";
-import {
-  ReactFinalForm,
-  InputFieldFF,
-  FileInputFieldFF,
-  TextAreaFieldFF,
-  Button,
-  hasValue,
-  CheckboxFieldFF,
-} from "@dhis2/ui";
+import { ReactFinalForm, InputFieldFF, FileInputFieldFF, TextAreaFieldFF, Button, hasValue, CheckboxFieldFF } from "@dhis2/ui";
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
+import { gql } from "graphql-tag";  // Import gql from graphql-tag
 
 const { Form, Field } = ReactFinalForm;
 
-const DataSetElementsQuery = {
-  dataSets: {
-    resource: "dataSets",
-    id: ({ dataSetId }) => dataSetId,
-    params: {
-      fields:
-        "displayName,dataSetElements[dataElement[id,valueType,displayName]]",
-    },
-  },
-  validationRules: {
-    resource: "validationRules",
-    params: ({ dataSetId }) => ({
-      dataSet: `${dataSetId}`,
-      fields:
-        "id,displayName,leftSide,rightSide,operator,displayInstruction,displayDescription",
-      // filter: `dataSet.id:eq:${dataSetId}`,
-    }),
-  },
-};
+// Define your GraphQL query
+const DataSetElementsQuery = gql`
+  query DataSetElementsQuery($dataSetId: ID!) {
+    dataSets(id: $dataSetId) {
+      id
+      displayName
+      dataSetElements {
+        dataElement {
+          id
+          displayName
+          valueType
+        }
+      }
+      validationRules {
+        validationRules {
+          id
+          displayInstruction
+          leftSide {
+            expression
+          }
+          rightSide {
+            expression
+          }
+          operator
+        }
+      }
+    }
+  }
+`;
 
 const DataEntryForm = ({ dataSetId }) => {
-  const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery);
+  const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery, {
+    variables: { dataSetId },
+  });
 
   useEffect(() => {
     refetch({ dataSetId });
-  }, [dataSetId]);
+  }, [dataSetId, refetch]);
 
   const onSubmit = (values) => {
     console.log(values);
   };
+
   const alertValues = (values) => {
     const formattedValuesString = JSON.stringify(values, null, 2);
     alert(formattedValuesString);
@@ -52,17 +59,12 @@ const DataEntryForm = ({ dataSetId }) => {
   const validate = (values) => {
     const errors = {};
     if (!loading && data) {
-      data.validationRules.validationRules.forEach((rule) => {
-        // const leftValue = values[rule.leftSide.expression];
-        // const rightValue = values[rule.rightSide.expression];
+      data.dataSets.validationRules.validationRules.forEach((rule) => {
         const leftValue = evaluateExpression(rule.leftSide.expression, values);
-        const rightValue = evaluateExpression(
-          rule.rightSide.expression,
-          values
-        );
-        // console.log(rule.leftSide.expression);
+        const rightValue = evaluateExpression(rule.rightSide.expression, values);
 
         switch (rule.operator) {
+          // Add your existing switch cases for validation rules
           case "equal_to":
             if (leftValue !== rightValue) {
               errors[rule.id] = `${rule.displayInstruction}`;
@@ -106,7 +108,6 @@ const DataEntryForm = ({ dataSetId }) => {
           default:
             break;
         }
-        return errors;
       });
     }
     return errors;
@@ -116,6 +117,7 @@ const DataEntryForm = ({ dataSetId }) => {
     BOOLEAN: "checkbox",
     FILE_RESOURCE: "file",
   };
+
   const fieldTypeMapping = {
     BOOLEAN: CheckboxFieldFF,
     FILE_RESOURCE: FileInputFieldFF,
@@ -126,25 +128,12 @@ const DataEntryForm = ({ dataSetId }) => {
     <div>
       {error && `Error: ${error.message}`}
       {loading && `Loading...`}
-      {/* {data && (
-        <>
-          <p>{data.dataSets.displayName}</p>
-          <ul>
-            {data.dataSets.dataSetElements.map((dataElement) => (
-              <li key={dataElement.dataElement.id}>
-                {dataElement.dataElement.displayName} -{" "}
-                {dataElement.dataElement.valueType}
-              </li>
-            ))}
-          </ul>
-        </>
-      )} */}
       {data && (
         <div className={classes.forms__design}>
           <div>
             <h1>{data.dataSets.displayName}</h1>
             <Form
-              onSubmit={alertValues}
+              onSubmit={onSubmit}
               validate={validate}
               render={({ handleSubmit }) => (
                 <form onSubmit={handleSubmit}>
@@ -164,7 +153,18 @@ const DataEntryForm = ({ dataSetId }) => {
                         }
                         validate={hasValue}
                         placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
-                      ></Field>
+                      >
+                        {(props) => (
+                          <div>
+                            {props.meta.error && props.meta.touched && (
+                              <div style={{ color: 'red' }}>
+                                {props.meta.error}
+                              </div>
+                            )}
+                            {props.children}
+                          </div>
+                        )}
+                      </Field>
                     </div>
                   ))}
                   <div className={classes.submit__button}>

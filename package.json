@@ -14,6 +14,11 @@
     "@dhis2/cli-app-scripts": "^10.3.10"
   },
   "dependencies": {
-    "@dhis2/app-runtime": "^3.9.4"
+    "@apollo/client": "^3.8.8",
+    "@dhis2/app-runtime": "^3.9.4",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "prop-types": "^15.8.1",
+    "react-is": "^18.2.0"
   }
 }
