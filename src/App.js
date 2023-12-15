@@ -16,6 +16,7 @@ const MyApp = () => {
 
   const handleSelectDataSet = (dataSetId) => {
     setSelectedDataSet(dataSetId);
+    setSelectedOrgUnit(null);
   };
 
   const handleSelectOrgUnit = (orgUnitId) => {
@@ -40,10 +41,13 @@ const MyApp = () => {
             organizationUnitId={selectedOrgUnit || "y77LiPqLMoq"}
             onSelectProgram={handleSelectProgram}
           />
+          <Period/>
         </ButtonStrip>
       </div>
       <div>
-        {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
+      {selectedDataSet && selectedOrgUnit && (
+          <ValidationRules dataSetId={selectedDataSet} />
+        )}
         {selectedDataSet && selectedOrgUnit && (
           <DataEntryForm dataSetId={selectedDataSet} />
         )}
