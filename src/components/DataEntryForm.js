@@ -12,7 +12,7 @@ import {
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
 
-const { Form, Field } = ReactFinalForm;
+const { Form, Field, useField } = ReactFinalForm;
 
 const DataSetElementsQuery = {
   dataSets: {
@@ -53,15 +53,13 @@ const DataEntryForm = ({ dataSetId }) => {
     const errors = {};
     if (!loading && data) {
       data.validationRules.validationRules.forEach((rule) => {
-        // const leftValue = values[rule.leftSide.expression];
-        // const rightValue = values[rule.rightSide.expression];
         const leftValue = evaluateExpression(rule.leftSide.expression, values);
         const rightValue = evaluateExpression(
           rule.rightSide.expression,
           values
         );
-        // console.log(rule.leftSide.expression);
 
+        console.log(rule.operator);
         switch (rule.operator) {
           case "equal_to":
             if (leftValue !== rightValue) {
@@ -106,9 +104,9 @@ const DataEntryForm = ({ dataSetId }) => {
           default:
             break;
         }
-        return errors;
       });
     }
+    console.log(errors);
     return errors;
   };
 
@@ -122,23 +120,18 @@ const DataEntryForm = ({ dataSetId }) => {
     LONG_TEXT: TextAreaFieldFF,
   };
 
+  const Error = ({ name }) => {
+    const {
+      meta: { touched, error },
+    } = useField(name, { subscription: { touched: true, error: true } });
+    console.log(error);
+    return touched && error ? <span>{error}</span> : null;
+  };
+
   return (
     <div>
       {error && `Error: ${error.message}`}
       {loading && `Loading...`}
-      {/* {data && (
-        <>
-          <p>{data.dataSets.displayName}</p>
-          <ul>
-            {data.dataSets.dataSetElements.map((dataElement) => (
-              <li key={dataElement.dataElement.id}>
-                {dataElement.dataElement.displayName} -{" "}
-                {dataElement.dataElement.valueType}
-              </li>
-            ))}
-          </ul>
-        </>
-      )} */}
       {data && (
         <div className={classes.forms__design}>
           <div>
@@ -146,12 +139,17 @@ const DataEntryForm = ({ dataSetId }) => {
             <Form
               onSubmit={alertValues}
               validate={validate}
-              render={({ handleSubmit }) => (
+              render={({
+                handleSubmit,
+                values,
+                reset,
+                submitting,
+                pristine,
+              }) => (
                 <form onSubmit={handleSubmit}>
                   {data.dataSets.dataSetElements.map((dataElement) => (
                     <div key={dataElement.dataElement.id}>
                       <Field
-                        id={dataElement.dataElement.id}
                         name={dataElement.dataElement.id}
                         label={dataElement.dataElement.displayName}
                         component={
@@ -165,10 +163,11 @@ const DataEntryForm = ({ dataSetId }) => {
                         validate={hasValue}
                         placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
                       ></Field>
+                      <Error name={dataElement.dataElement.id} />
                     </div>
                   ))}
                   <div className={classes.submit__button}>
-                    <Button type="submit" primary>
+                    <Button type="submit" primary disabled={submitting}>
                       Submit
                     </Button>
                   </div>
