@@ -16,6 +16,7 @@ const MyApp = () => {
 
   const handleSelectDataSet = (dataSetId) => {
     setSelectedDataSet(dataSetId);
+    setSelectedOrgUnit(null);
   };
 
   const handleSelectOrgUnit = (orgUnitId) => {
@@ -44,7 +45,9 @@ const MyApp = () => {
         </ButtonStrip>
       </div>
       <div>
-        {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
+      {selectedDataSet && selectedOrgUnit && (
+          <ValidationRules dataSetId={selectedDataSet} />
+        )}
         {selectedDataSet && selectedOrgUnit && (
           <DataEntryForm dataSetId={selectedDataSet} />
         )}
