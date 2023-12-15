@@ -178,8 +178,30 @@ const DataEntryForm = ({ dataSetId }) => {
           </div>
         </div>
       )}
+
+      {/* pass error object to ErrorDisplay */}
+      {error && <ErrorDisplay errors = {error}/>}
     </div>
   );
+};
+
+const ErrorDisplay = ({errors}) =>{
+
+  if (!errors){
+    return null;
+  }
+    return(
+        <div>
+            <h3>Validation Errors</h3>
+            <ul>
+                {Object.keys(errors).map((errorKey)=> (
+                    <li key = {errorKey}>
+                        <span>{errors[errorKey]}</span>
+                    </li>
+               ))}
+            </ul>
+            </div>
+    );
 };
 
 export default DataEntryForm;
