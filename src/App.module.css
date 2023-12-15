@@ -52,10 +52,10 @@
 }
 
 .forms__design {
-  border: 2px solid #a8d6d2;
+  border: 2px solid #f4f8f8;
   margin-top: 30px;
   border-radius: 8px;
-  background-color: aliceblue;
+  background-color: rgb(237, 239, 241);
   width: 100%;
   align-items: center;
   padding: 40px 80px;
@@ -76,7 +76,7 @@
   }
 }
 .background{
-  background-image: url('./images/Pinterest_Download\ \(10\).jpg');
+  background-image: url('./images/pexels-johannes-plenio-1103970.jpg');
   background-size: cover;
   background-position: center;
   width: 100vw;
