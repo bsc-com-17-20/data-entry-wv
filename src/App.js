@@ -40,6 +40,7 @@ const MyApp = () => {
             organizationUnitId={selectedOrgUnit || "y77LiPqLMoq"}
             onSelectProgram={handleSelectProgram}
           />
+          <Period/>
         </ButtonStrip>
       </div>
       <div>
