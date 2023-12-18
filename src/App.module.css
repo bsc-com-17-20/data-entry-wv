@@ -16,6 +16,13 @@
   border-color: black;
 }
 
+.validationRulesButton {
+  /* Use styles from App.module.css */
+  position: absolute;
+  top: 60px;
+  left: 20px;
+}
+
 .button:after {
   position: absolute;
   content: "";

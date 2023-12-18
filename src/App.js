@@ -8,11 +8,14 @@ import DataEntryForm from "./components/DataEntryForm";
 import { ButtonStrip } from "@dhis2/ui";
 import { useState } from "react";
 import Period from "./components/Period";
+import ValidationRulesButton from "./components/ValidationRulesButton";
+import { Button } from "@dhis2/ui";
 
 const MyApp = () => {
   const [selectedDataSet, setSelectedDataSet] = useState(null);
   const [selectedOrgUnit, setSelectedOrgUnit] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const [showValidationRules, setShowValidationRules] = useState(false);
 
   const handleSelectDataSet = (dataSetId) => {
     setSelectedDataSet(dataSetId);
@@ -24,6 +27,10 @@ const MyApp = () => {
 
   const handleSelectProgram = (programId) => {
     setSelectedProgram(programId);
+  };
+
+  const handleToggleValidationRules = () => {
+    setShowValidationRules(!showValidationRules);
   };
 
   return (
@@ -43,7 +50,12 @@ const MyApp = () => {
         </ButtonStrip>
       </div>
       <div>
-        {selectedDataSet && <ValidationRules dataSetId={selectedDataSet} />}
+      <div className={classes.validationRulesButton}>
+      <Button onClick={handleToggleValidationRules}>
+        {showValidationRules ? "Hide Validation Rules" : "Show Validation Rules"}
+      </Button>
+      {showValidationRules && <ValidationRules dataSetId={selectedDataSet} />}
+    </div>
         {selectedDataSet && selectedOrgUnit && (
           <DataEntryForm dataSetId={selectedDataSet} />
         )}
