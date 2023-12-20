@@ -17,7 +17,6 @@
 }
 
 .validationRulesButton {
-  /* Use styles from App.module.css */
   position: absolute;
   top: 60px;
   left: 20px;
@@ -76,8 +75,8 @@
 .errors {
   position: fixed;
   top: 220px;
-  right: 5%;
-  min-width: 200px;
+  right: 2%;
+  max-width: 250px;
   background-color: #ffffff;
   border: 1px solid #000;
   border-radius: 10px;
