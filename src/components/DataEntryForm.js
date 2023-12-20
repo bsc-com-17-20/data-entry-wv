@@ -11,7 +11,6 @@ import {
 } from "@dhis2/ui";
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
-import Errors from "./Errors";
 
 const { Form, Field, FormSpy } = ReactFinalForm;
 

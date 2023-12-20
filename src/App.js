@@ -7,8 +7,6 @@ import ProgramPicker from "./components/ProgramPicker";
 import DataEntryForm from "./components/DataEntryForm";
 import { ButtonStrip } from "@dhis2/ui";
 import { useState } from "react";
-import Period from "./components/Period";
-import ValidationRulesButton from "./components/ValidationRulesButton";
 import { Button } from "@dhis2/ui";
 
 const MyApp = () => {
@@ -34,34 +32,38 @@ const MyApp = () => {
   };
 
   return (
-  <div className={classes.background}>
-    <div className={classes.container}>
-      <div className={classes.button__container}>
-        <ButtonStrip middle>
-          <DataSetPicker onSelectDataSet={handleSelectDataSet} />
-          <OrgUnitPicker
-            onSelectOrgUnit={handleSelectOrgUnit}
-            dataSetId={selectedDataSet || "lyLU2wR22tC"}
-          />
-          <ProgramPicker
-            organizationUnitId={selectedOrgUnit || "y77LiPqLMoq"}
-            onSelectProgram={handleSelectProgram}
-          />
-        </ButtonStrip>
+    <div className={classes.background}>
+      <div className={classes.container}>
+        <div className={classes.button__container}>
+          <ButtonStrip middle>
+            <DataSetPicker onSelectDataSet={handleSelectDataSet} />
+            <OrgUnitPicker
+              onSelectOrgUnit={handleSelectOrgUnit}
+              dataSetId={selectedDataSet || "lyLU2wR22tC"}
+            />
+            <ProgramPicker
+              organizationUnitId={selectedOrgUnit || "y77LiPqLMoq"}
+              onSelectProgram={handleSelectProgram}
+            />
+          </ButtonStrip>
+        </div>
+        <div>
+          <div className={classes.validationRulesButton}>
+            <Button onClick={handleToggleValidationRules}>
+              {showValidationRules
+                ? "Hide Validation Rules"
+                : "Show Validation Rules"}
+            </Button>
+            {showValidationRules && (
+              <ValidationRules dataSetId={selectedDataSet} />
+            )}
+          </div>
+          {selectedDataSet && selectedOrgUnit && (
+            <DataEntryForm dataSetId={selectedDataSet} />
+          )}
+        </div>
       </div>
-      <div>
-      <div className={classes.validationRulesButton}>
-      <Button onClick={handleToggleValidationRules}>
-        {showValidationRules ? "Hide Validation Rules" : "Show Validation Rules"}
-      </Button>
-      {showValidationRules && <ValidationRules dataSetId={selectedDataSet} />}
     </div>
-        {selectedDataSet && selectedOrgUnit && (
-          <DataEntryForm dataSetId={selectedDataSet} />
-        )}
-      </div>
-    </div>
-  </div>  
   );
 };
 

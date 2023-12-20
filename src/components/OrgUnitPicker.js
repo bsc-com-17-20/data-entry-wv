@@ -1,6 +1,7 @@
 import { useDataQuery } from "@dhis2/app-runtime";
 import { useEffect } from "react";
 import classes from "../App.module.css";
+import { CircularLoader } from "@dhis2/ui";
 
 const organisationUnitsQuery = {
   dataSets: {
@@ -23,11 +24,9 @@ const OrgUnitPicker = ({ onSelectOrgUnit, dataSetId }) => {
     <div>
       {error && `Error: ${error.message}`}
       {loading && (
-        <select
-          className={classes.button}
-          onChange={(e) => onSelectOrgUnit(e.target.value)}
-        >
-          <option key={null}>Org Unit</option>
+        <select className={classes.button}>
+          <option>Org Unit</option>
+          <CircularLoader />
         </select>
       )}
       {data && (
