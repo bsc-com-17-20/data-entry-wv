@@ -64,6 +64,18 @@
   margin-top: 24px;
 }
 
+.errors {
+  position: fixed;
+  top: 220px;
+  right: 5%;
+  min-width: 200px;
+  background-color: #ffffff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 1000; /* Set the z-index to make sure it's above other elements */
+}
+
 @media (min-width: 576px) and (max-width: 767px) {
   .forms__design {
     padding: 40px 80px;

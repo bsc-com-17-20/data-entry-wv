@@ -124,10 +124,15 @@ const DataEntryForm = ({ dataSetId }) => {
     <FormSpy subscription={{ errors: true }}>
       {({ errors }) => (
         <div>
+          <h2>Violations:</h2>
           {Object.keys(errors).map((fieldName) => (
-            <div key={fieldName} style={{ color: "red", marginTop: "10px" }}>
-              {errors[fieldName]}
-            </div>
+            <>
+              <div key={fieldName} style={{ color: "red", marginTop: "10px" }}>
+                {errors[fieldName] === "Please provide a value"
+                  ? ""
+                  : errors[fieldName]}
+              </div>
+            </>
           ))}
         </div>
       )}
@@ -171,7 +176,9 @@ const DataEntryForm = ({ dataSetId }) => {
                       ></Field>
                     </div>
                   ))}
-                  <ErrorDisplay />
+                  <div className={classes.errors}>
+                    <ErrorDisplay />
+                  </div>
                   <div className={classes.submit__button}>
                     <Button type="submit" primary disabled={submitting}>
                       Submit
