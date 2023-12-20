@@ -11,8 +11,7 @@ import {
 } from "@dhis2/ui";
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
-import Period from "./Period";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import moment from "moment";
 
 const { Form, Field, FormSpy } = ReactFinalForm;
@@ -46,7 +45,7 @@ const SubmitMutation = {
 const DataEntryForm = ({ dataSetId }) => {
   const [submissionDate, setSubmissionDate] = useState(null);
   const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery);
- 
+
   useEffect(() => {
     refetch({ dataSetId });
   }, [dataSetId]);
@@ -54,9 +53,11 @@ const DataEntryForm = ({ dataSetId }) => {
   const onSubmit = (values) => {
     console.log(values);
     setSubmissionDate(moment().format("YYYY-MM-DD"));
-   { /*window.alert(`Submission Date: ${submissionDate}`);
-  */}alertValues(values)
-
+    {
+      /*window.alert(`Submission Date: ${submissionDate}`);
+       */
+    }
+    alertValues(values);
   };
   const alertValues = (values) => {
     const formattedValuesString = JSON.stringify(values, null, 2);
@@ -66,7 +67,7 @@ const DataEntryForm = ({ dataSetId }) => {
   const onSubmitAndAlert = (values, form) => {
     onSubmit(values);
     form.restart();
-  }
+  };
 
   const validate = (values) => {
     const errors = {};
@@ -163,79 +164,46 @@ const DataEntryForm = ({ dataSetId }) => {
       {loading && `Loading...`}
       {data && (
         <div className={classes.forms__design}>
-          <div>
-          {/*<Period/>
-            {submissionDate && (<p>Submission Date: {submissionDate}</p>)}*/}
-
-            <h1>{data.dataSets.displayName}</h1>
-            <Form
-              onSubmit={onSubmitAndAlert}
-              validate={validate}
-              render={({
-                handleSubmit,
-                values,
-                reset,
-                submitting,
-                pristine,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  {data.dataSets.dataSetElements.map((dataElement) => (
-                    <div key={dataElement.dataElement.id}>
-                      <Field
-                        name={dataElement.dataElement.id}
-                        label={dataElement.dataElement.displayName}
-                        component={
-                          fieldTypeMapping[dataElement.dataElement.valueType] ||
-                          InputFieldFF
-                        }
-                        type={
-                          typeMapping[dataElement.dataElement.valueType] ||
-                          dataElement.dataElement.valueType
-                        }
-                        validate={hasValue}
-                        placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
-                      ></Field>
-                    </div>
-                  ))}
-                  <div className={classes.errors}>
-                    <ErrorDisplay />
+          <h1>{data.dataSets.displayName}</h1>
+          <Form
+            onSubmit={onSubmitAndAlert}
+            validate={validate}
+            render={({ handleSubmit, values, reset, submitting, pristine }) => (
+              <form onSubmit={handleSubmit}>
+                {data.dataSets.dataSetElements.map((dataElement) => (
+                  <div key={dataElement.dataElement.id}>
+                    <Field
+                      name={dataElement.dataElement.id}
+                      label={dataElement.dataElement.displayName}
+                      component={
+                        fieldTypeMapping[dataElement.dataElement.valueType] ||
+                        InputFieldFF
+                      }
+                      type={
+                        typeMapping[dataElement.dataElement.valueType] ||
+                        dataElement.dataElement.valueType
+                      }
+                      validate={hasValue}
+                      placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
+                    ></Field>
                   </div>
-                  <div className={classes.submit__button}>
-                    <Button type="submit" primary disabled={submitting}>
-                      Submit
-                    </Button>
-                  </div>
-                </form>
-              )}
-            ></Form>
-            {submissionDate && <p>Submission Date: {submissionDate}</p>}
-          </div>
+                ))}
+                <div className={classes.errors}>
+                  <ErrorDisplay />
+                </div>
+                <div className={classes.submit__button}>
+                  <Button type="submit" primary disabled={submitting}>
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            )}
+          ></Form>
+          {submissionDate && <p>Submission Date: {submissionDate}</p>}
         </div>
       )}
-
-      {/* pass error object to ErrorDisplay */}
-      {error && <ErrorDisplay errors = {error}/>}
     </div>
   );
-};
-
-const ErrorDisplay = ({errors}) =>{
-
-  if (!errors){
-    return null;
-  }
-    return(
-        <div>
-            <h3>Validation Errors</h3>
-            <ul>
-                {Object.keys(errors).map((errorKey)=> (
-                    <li key = {errorKey}>
-                        <span>{errors[errorKey]}</span>
-                    </li>
-               ))}
-            </ul>
-            </div>
-    );
 };
 
 export default DataEntryForm;
