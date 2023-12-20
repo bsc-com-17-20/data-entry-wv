@@ -16,6 +16,14 @@
   border-color: black;
 }
 
+.validationRulesButton {
+  /* Use styles from App.module.css */
+  position: absolute;
+  top: 60px;
+  left: 20px;
+  max-width: 300px;
+}
+
 .button:after {
   position: absolute;
   content: "";
@@ -52,9 +60,10 @@
 }
 
 .forms__design {
-  border: 2px solid #000;
+  border: 2px solid #f4f8f8;
   margin-top: 30px;
   border-radius: 8px;
+  background-color: rgb(237, 239, 241);
   width: 100%;
   align-items: center;
   padding: 40px 80px;
@@ -86,3 +95,12 @@
     margin-left: 450px;
   }
 }
+/*.background{
+  background-image: url('./images/pexels-johannes-plenio-1103970.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100vw;
+   height: 100%; 
+  
+
+}*/
