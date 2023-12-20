@@ -37,6 +37,12 @@ const DataSetElementsQuery = {
   },
 };
 
+const SubmitMutation = {
+  resource: "dataValueSets",
+  type: "create",
+  data: ({ dataSet, completeDate, period, orgUnit, dataValues }) => ({}),
+};
+
 const DataEntryForm = ({ dataSetId }) => {
   const [submissionDate, setSubmissionDate] = useState(null);
   const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery);
