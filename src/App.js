@@ -41,10 +41,10 @@ const MyApp = () => {
               onSelectOrgUnit={handleSelectOrgUnit}
               dataSetId={selectedDataSet || "lyLU2wR22tC"}
             />
-            <ProgramPicker
+            {/* <ProgramPicker
               organizationUnitId={selectedOrgUnit || "y77LiPqLMoq"}
               onSelectProgram={handleSelectProgram}
-            />
+            /> */}
           </ButtonStrip>
         </div>
         <div>
