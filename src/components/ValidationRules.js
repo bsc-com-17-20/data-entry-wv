@@ -8,8 +8,7 @@ const validationRulesQuery = {
     resource: "validationRules",
     params: ({ dataSetId }) => ({
       dataSet: `${dataSetId}`,
-      fields:
-        "id,displayName,leftSide,rightSide,operator,displayInstruction,displayDescription",
+      fields: "id,displayName,displayInstruction,displayDescription",
       // filter: `dataSet.id:eq:${dataSetId}`,
     }),
   },
@@ -32,8 +31,7 @@ const ValidationRules = ({ dataSetId }) => {
         <ul>
           {data.validationRules.validationRules.map((rule) => (
             <li key={rule.id}>
-              {rule.displayName} : {rule.leftSide.expression} {rule.operator}{" "}
-              {rule.rightSide.expression}
+              {rule.displayName} : {rule.displayInstruction}
             </li>
           ))}
         </ul>
