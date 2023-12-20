@@ -11,8 +11,9 @@ import {
 } from "@dhis2/ui";
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
+import Errors from "./Errors";
 
-const { Form, Field, useField } = ReactFinalForm;
+const { Form, Field, FormSpy } = ReactFinalForm;
 
 const DataSetElementsQuery = {
   dataSets: {
@@ -59,7 +60,6 @@ const DataEntryForm = ({ dataSetId }) => {
           values
         );
 
-        console.log(rule.operator);
         switch (rule.operator) {
           case "equal_to":
             if (leftValue !== rightValue) {
@@ -120,13 +120,19 @@ const DataEntryForm = ({ dataSetId }) => {
     LONG_TEXT: TextAreaFieldFF,
   };
 
-  const Error = ({ name }) => {
-    const {
-      meta: { touched, error },
-    } = useField(name, { subscription: { touched: true, error: true } });
-    console.log(error);
-    return touched && error ? <span>{error}</span> : null;
-  };
+  const ErrorDisplay = () => (
+    <FormSpy subscription={{ errors: true }}>
+      {({ errors }) => (
+        <div>
+          {Object.keys(errors).map((fieldName) => (
+            <div key={fieldName} style={{ color: "red", marginTop: "10px" }}>
+              {errors[fieldName]}
+            </div>
+          ))}
+        </div>
+      )}
+    </FormSpy>
+  );
 
   return (
     <div>
@@ -163,9 +169,9 @@ const DataEntryForm = ({ dataSetId }) => {
                         validate={hasValue}
                         placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
                       ></Field>
-                      <Error name={dataElement.dataElement.id} />
                     </div>
                   ))}
+                  <ErrorDisplay />
                   <div className={classes.submit__button}>
                     <Button type="submit" primary disabled={submitting}>
                       Submit
