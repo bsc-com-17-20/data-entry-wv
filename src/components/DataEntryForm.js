@@ -11,6 +11,9 @@ import {
 } from "@dhis2/ui";
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
+import Period from "./Period";
+import React, {useState} from "react";
+import moment from "moment";
 
 const { Form, Field, FormSpy } = ReactFinalForm;
 
@@ -35,19 +38,29 @@ const DataSetElementsQuery = {
 };
 
 const DataEntryForm = ({ dataSetId }) => {
+  const [submissionDate, setSubmissionDate] = useState(null);
   const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery);
-
+ 
   useEffect(() => {
     refetch({ dataSetId });
   }, [dataSetId]);
 
   const onSubmit = (values) => {
     console.log(values);
+    setSubmissionDate(moment().format("YYYY-MM-DD"));
+   { /*window.alert(`Submission Date: ${submissionDate}`);
+  */}alertValues(values)
+
   };
   const alertValues = (values) => {
     const formattedValuesString = JSON.stringify(values, null, 2);
     alert(formattedValuesString);
   };
+
+  const onSubmitAndAlert = (values, form) => {
+    onSubmit(values);
+    form.restart();
+  }
 
   const validate = (values) => {
     const errors = {};
@@ -145,9 +158,12 @@ const DataEntryForm = ({ dataSetId }) => {
       {data && (
         <div className={classes.forms__design}>
           <div>
+          {/*<Period/>
+            {submissionDate && (<p>Submission Date: {submissionDate}</p>)}*/}
+
             <h1>{data.dataSets.displayName}</h1>
             <Form
-              onSubmit={alertValues}
+              onSubmit={onSubmitAndAlert}
               validate={validate}
               render={({
                 handleSubmit,
@@ -186,11 +202,34 @@ const DataEntryForm = ({ dataSetId }) => {
                 </form>
               )}
             ></Form>
+            {submissionDate && <p>Submission Date: {submissionDate}</p>}
           </div>
         </div>
       )}
+
+      {/* pass error object to ErrorDisplay */}
+      {error && <ErrorDisplay errors = {error}/>}
     </div>
   );
+};
+
+const ErrorDisplay = ({errors}) =>{
+
+  if (!errors){
+    return null;
+  }
+    return(
+        <div>
+            <h3>Validation Errors</h3>
+            <ul>
+                {Object.keys(errors).map((errorKey)=> (
+                    <li key = {errorKey}>
+                        <span>{errors[errorKey]}</span>
+                    </li>
+               ))}
+            </ul>
+            </div>
+    );
 };
 
 export default DataEntryForm;
