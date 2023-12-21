@@ -95,6 +95,14 @@
     margin-left: 450px;
   }
 }
+
+
+p{
+  text-align: center;
+  font-size: large;
+}
+
+
 /*.background{
   background-image: url('./images/pexels-johannes-plenio-1103970.jpg');
   background-size: cover;
