@@ -12,28 +12,18 @@ const DataSetPicker = ({ onSelectDataSet }) => {
     },
   });
 
-  if (loading) return <CircularLoader />;
+  if (loading)
+    return (
+      <select className={classes.button}>
+        <option>Data Set</option>
+        <CircularLoader />
+      </select>
+    );
+
   if (error) return <p>Error: {error.message}</p>;
 
   return (
     <div>
-      {/* <DropdownButton
-        component={
-          <FlyoutMenu>
-            {data.dataSets.dataSets.map((dataSet) => (
-              <MenuItem
-                key={dataSet.id}
-                value={dataSet.id}
-                label={dataSet.name}
-                onClick={() => onSelectDataSet(dataSet.id)}
-              />
-            ))}
-          </FlyoutMenu>
-        }
-        primary
-      >
-        Data Sets
-      </DropdownButton> */}
       <select
         className={classes.button}
         onChange={(e) => onSelectDataSet(e.target.value)}

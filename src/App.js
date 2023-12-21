@@ -7,16 +7,16 @@ import ProgramPicker from "./components/ProgramPicker";
 import DataEntryForm from "./components/DataEntryForm";
 import { ButtonStrip } from "@dhis2/ui";
 import { useState } from "react";
-import Period from "./components/Period";
+import { Button } from "@dhis2/ui";
 
 const MyApp = () => {
   const [selectedDataSet, setSelectedDataSet] = useState(null);
   const [selectedOrgUnit, setSelectedOrgUnit] = useState(null);
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const [showValidationRules, setShowValidationRules] = useState(false);
 
   const handleSelectDataSet = (dataSetId) => {
     setSelectedDataSet(dataSetId);
-    setSelectedOrgUnit(null);
   };
 
   const handleSelectOrgUnit = (orgUnitId) => {
@@ -25,6 +25,10 @@ const MyApp = () => {
 
   const handleSelectProgram = (programId) => {
     setSelectedProgram(programId);
+  };
+
+  const handleToggleValidationRules = () => {
+    setShowValidationRules(!showValidationRules);
   };
 
   return (
@@ -53,11 +57,7 @@ const MyApp = () => {
         )}
       </div>
     </div>
-    <p>Please Select a Dataset First
-       And Then Select Organisation Unit</p>
-    
   </div>  
-  
   );
 };
 
