@@ -11,6 +11,8 @@ import {
 } from "@dhis2/ui";
 import classes from "../App.module.css";
 import evaluateExpression from "../utils/evaluateExpression";
+import React, { useState } from "react";
+import moment from "moment";
 
 const { Form, Field, FormSpy } = ReactFinalForm;
 
@@ -34,7 +36,14 @@ const DataSetElementsQuery = {
   },
 };
 
+const SubmitMutation = {
+  resource: "dataValueSets",
+  type: "create",
+  data: ({ dataSet, completeDate, period, orgUnit, dataValues }) => ({}),
+};
+
 const DataEntryForm = ({ dataSetId }) => {
+  const [submissionDate, setSubmissionDate] = useState(null);
   const { loading, error, data, refetch } = useDataQuery(DataSetElementsQuery);
 
   useEffect(() => {
@@ -43,10 +52,21 @@ const DataEntryForm = ({ dataSetId }) => {
 
   const onSubmit = (values) => {
     console.log(values);
+    setSubmissionDate(moment().format("YYYY-MM-DD"));
+    {
+      /*window.alert(`Submission Date: ${submissionDate}`);
+       */
+    }
+    alertValues(values);
   };
   const alertValues = (values) => {
     const formattedValuesString = JSON.stringify(values, null, 2);
     alert(formattedValuesString);
+  };
+
+  const onSubmitAndAlert = (values, form) => {
+    onSubmit(values);
+    form.restart();
   };
 
   const validate = (values) => {
@@ -144,49 +164,42 @@ const DataEntryForm = ({ dataSetId }) => {
       {loading && `Loading...`}
       {data && (
         <div className={classes.forms__design}>
-          <div>
-            <h1>{data.dataSets.displayName}</h1>
-            <Form
-              onSubmit={alertValues}
-              validate={validate}
-              render={({
-                handleSubmit,
-                values,
-                reset,
-                submitting,
-                pristine,
-              }) => (
-                <form onSubmit={handleSubmit}>
-                  {data.dataSets.dataSetElements.map((dataElement) => (
-                    <div key={dataElement.dataElement.id}>
-                      <Field
-                        name={dataElement.dataElement.id}
-                        label={dataElement.dataElement.displayName}
-                        component={
-                          fieldTypeMapping[dataElement.dataElement.valueType] ||
-                          InputFieldFF
-                        }
-                        type={
-                          typeMapping[dataElement.dataElement.valueType] ||
-                          dataElement.dataElement.valueType
-                        }
-                        validate={hasValue}
-                        placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
-                      ></Field>
-                    </div>
-                  ))}
-                  <div className={classes.errors}>
-                    <ErrorDisplay />
+          <h1>{data.dataSets.displayName}</h1>
+          <Form
+            onSubmit={onSubmitAndAlert}
+            validate={validate}
+            render={({ handleSubmit, values, reset, submitting, pristine }) => (
+              <form onSubmit={handleSubmit}>
+                {data.dataSets.dataSetElements.map((dataElement) => (
+                  <div key={dataElement.dataElement.id}>
+                    <Field
+                      name={dataElement.dataElement.id}
+                      label={dataElement.dataElement.displayName}
+                      component={
+                        fieldTypeMapping[dataElement.dataElement.valueType] ||
+                        InputFieldFF
+                      }
+                      type={
+                        typeMapping[dataElement.dataElement.valueType] ||
+                        dataElement.dataElement.valueType
+                      }
+                      validate={hasValue}
+                      placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
+                    ></Field>
                   </div>
-                  <div className={classes.submit__button}>
-                    <Button type="submit" primary disabled={submitting}>
-                      Submit
-                    </Button>
-                  </div>
-                </form>
-              )}
-            ></Form>
-          </div>
+                ))}
+                <div className={classes.errors}>
+                  <ErrorDisplay />
+                </div>
+                <div className={classes.submit__button}>
+                  <Button type="submit" primary disabled={submitting}>
+                    Submit
+                  </Button>
+                </div>
+              </form>
+            )}
+          ></Form>
+          {submissionDate && <p>Submission Date: {submissionDate}</p>}
         </div>
       )}
     </div>
