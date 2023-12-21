@@ -167,7 +167,7 @@ const DataEntryForm = ({ dataSetId }) => {
         <div className={classes.forms__design}>
           <h1>{data.dataSets.displayName}</h1>
           <Form
-            onSubmit={onSubmitAndAlert}
+            onSubmit={onSubmit}
             validate={validate}
             render={({ handleSubmit, values, reset, submitting, pristine }) => (
               <form onSubmit={handleSubmit}>
