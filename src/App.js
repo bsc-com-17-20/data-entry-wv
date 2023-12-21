@@ -56,6 +56,7 @@ const MyApp = () => {
           <DataEntryForm dataSetId={selectedDataSet} />
         )}
       </div>
+      <p>Please Select A DataSet First Then Select An Organisation Unit</p>
     </div>
   </div>  
   );
