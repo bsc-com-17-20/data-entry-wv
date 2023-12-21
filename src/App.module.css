@@ -102,6 +102,9 @@ p{
   font-size: large;
 }
 
+.button:hover{
+  background-color: rgba(128, 128, 128, 0.384);
+}
 
 /*.background{
   background-image: url('./images/pexels-johannes-plenio-1103970.jpg');
