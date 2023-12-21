@@ -29,11 +29,10 @@ const ValidationRules = ({ dataSetId }) => {
       {error && `Error: ${error.message}`}
       {loading && `Loading...`}
       {data && (
-        <ul>
+        <ul className={classes.validation__rules}>
           {data.validationRules.validationRules.map((rule) => (
             <li key={rule.id}>
-              {rule.displayName} : {rule.leftSide.expression} {rule.operator}{" "}
-              {rule.rightSide.expression}
+              <b>{rule.displayName} :</b> {rule.displayDescription}
             </li>
           ))}
         </ul>

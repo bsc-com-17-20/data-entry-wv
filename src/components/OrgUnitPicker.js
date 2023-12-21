@@ -9,6 +9,7 @@ const organisationUnitsQuery = {
     id: ({ dataSetId }) => dataSetId,
     params: {
       fields: "organisationUnits[id,displayName]",
+      pageSize: 2,
     },
   },
 };

@@ -39,7 +39,13 @@ const DataSetElementsQuery = {
 const SubmitMutation = {
   resource: "dataValueSets",
   type: "create",
-  data: ({ dataSet, completeDate, period, orgUnit, dataValues }) => ({}),
+  data: ({ dataSet, completeDate, period, orgUnit, dataValues }) => ({
+    dataSet,
+    completeDate,
+    period,
+    orgUnit,
+    dataValues,
+  }),
 };
 
 const DataEntryForm = ({ dataSetId }) => {
@@ -61,12 +67,7 @@ const DataEntryForm = ({ dataSetId }) => {
   };
   const alertValues = (values) => {
     const formattedValuesString = JSON.stringify(values, null, 2);
-    alert(formattedValuesString);
-  };
-
-  const onSubmitAndAlert = (values, form) => {
-    onSubmit(values);
-    form.restart();
+    alert("Form submitted");
   };
 
   const validate = (values) => {
@@ -171,7 +172,10 @@ const DataEntryForm = ({ dataSetId }) => {
             render={({ handleSubmit, values, reset, submitting, pristine }) => (
               <form onSubmit={handleSubmit}>
                 {data.dataSets.dataSetElements.map((dataElement) => (
-                  <div key={dataElement.dataElement.id}>
+                  <div
+                    key={dataElement.dataElement.id}
+                    className={classes.form__fields}
+                  >
                     <Field
                       name={dataElement.dataElement.id}
                       label={dataElement.dataElement.displayName}
@@ -184,7 +188,6 @@ const DataEntryForm = ({ dataSetId }) => {
                         dataElement.dataElement.valueType
                       }
                       validate={hasValue}
-                      placeholder={`${dataElement.dataElement.valueType} and ${dataElement.dataElement.id}`}
                     ></Field>
                   </div>
                 ))}
