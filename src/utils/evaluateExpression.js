@@ -1,17 +1,17 @@
 function evaluateExpression(expression, values) {
   // Regex to match expressions like #{dataElement} or #{dataElement}*number
-  const match = expression.match(/#{([^{}]+)}(?:\*\s*([\d.]+))?/);
-  console.log(values);
+  const match = expression.match(
+    /#{([a-zA-Z0-9_]+)(?:\.([a-zA-Z0-9_]+))?(\*\d+)?}(?:\+#{[a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)?(?:\*\d+)?})?/
+  );
 
   if (match) {
     const dataElementId = match[1];
-    const multiplier = match[2] ? parseFloat(match[2]) : 1;
-    // console.log(dataElementId);
-    // console.log(multiplier);
+    const category = match[2];
+    const multiplier = match[3] ? parseFloat(match[3].substring(1)) : 1;
 
     // Extract the field value based on dataElementId
     const fieldValue = values[dataElementId];
-    console.log(fieldValue);
+
     // If fieldValue is a number, multiply it by the multiplier
     if (!isNaN(fieldValue)) {
       return fieldValue * multiplier;

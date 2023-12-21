@@ -8,7 +8,8 @@ const validationRulesQuery = {
     resource: "validationRules",
     params: ({ dataSetId }) => ({
       dataSet: `${dataSetId}`,
-      fields: "id,displayName,displayInstruction,displayDescription",
+      fields:
+        "id,displayName,leftSide,rightSide,operator,displayInstruction,displayDescription",
       // filter: `dataSet.id:eq:${dataSetId}`,
     }),
   },
@@ -28,10 +29,10 @@ const ValidationRules = ({ dataSetId }) => {
       {error && `Error: ${error.message}`}
       {loading && `Loading...`}
       {data && (
-        <ul>
+        <ul className={classes.validation__rules}>
           {data.validationRules.validationRules.map((rule) => (
             <li key={rule.id}>
-              {rule.displayName} : {rule.displayInstruction}
+              <b>{rule.displayName} :</b> {rule.displayDescription}
             </li>
           ))}
         </ul>
